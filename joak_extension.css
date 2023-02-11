@@ -1,0 +1,33 @@
+.joak-download-button {
+  position: fixed;
+  right: 0px;
+  top: 150px;
+  height: 170px;
+  width: 70px;
+  background-color: rgb(212, 43, 212);
+  z-index: 10000;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  cursor: pointer;
+
+  /* text */
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  writing-mode: vertical-rl;
+
+  /* original transition */
+  transform: translateX(22px);
+}
+
+.joak-download-button:hover {
+  background-color: rgb(211, 103, 211);
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+}
+
+.joak-download-button.clicked {
+  background-color: rgb(243, 220, 243);
+  color: rgb(114, 112, 114);
+}
