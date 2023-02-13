@@ -30,4 +30,25 @@
 .joak-download-button.clicked {
   background-color: rgb(243, 220, 243);
   color: rgb(114, 112, 114);
+  cursor: no-drop !important;
+}
+
+.joak-download-snackbar {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  min-height: 60px;
+  width: 400px;
+  background-color: rgb(234, 131, 236);
+  border-radius: 10px;
+  cursor: pointer;
+  display: none;
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.joak-download-snackbar:hover {
+  background-color: rgb(235, 168, 236);
+  color: rgb(123, 122, 122);
 }
