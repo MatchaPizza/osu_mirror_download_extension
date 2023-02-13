@@ -50,7 +50,7 @@ const getEndpoint = async () => {
 
 // get Kitsu download link
 const getKitsuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
-  const res = await fetch(`${osuMirrorEndpoint}/s/${mapSetId}`);
+  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/s/${mapSetId}`);
   switch (res.status) {
     case 200: {
       const resBody = await res.json();
@@ -71,6 +71,25 @@ const getKitsuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) =
   }
 }
 
+// get Chimu download link
+const getChimuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
+  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/set/${mapSetId}`);
+  switch(res.status) {
+    case 200: {
+      const resBody = await res.json();
+      if (resBody.Disabled === false) {
+        sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/download/${mapSetId}` });
+      } else {
+        sendResponse({ success: false, message: 'beatmap is unavailable from this api' });
+      }
+      break;
+    }
+    default: {
+      sendResponse({ success: false, message: 'map not found ¯\\_(ツ)_/¯' });
+    }
+  }
+}
+
 // get mirror download link
 const getMirrorDownloadLink = async (sendResponse, mapSetId) => {
   try {
@@ -78,8 +97,13 @@ const getMirrorDownloadLink = async (sendResponse, mapSetId) => {
     const { osuMirrorEndpoint, osuMirrorName } = await getEndpoint();
     switch (osuMirrorName) {
       case 'Kitsu': {
-        console.log('download map set from kitsu');
+        console.log('downloading map set from kitsu ...');
         await getKitsuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
+        break;
+      }
+      case 'Chimu': {
+        console.log('downloading map set from chimu ...');
+        await getChimuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
       default: {
@@ -92,6 +116,7 @@ const getMirrorDownloadLink = async (sendResponse, mapSetId) => {
   }
 }
 
+// message listener
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
   switch (request.action) {
     case 'set-default-api': {

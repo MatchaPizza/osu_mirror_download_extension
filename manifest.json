@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Joak's osu mirror download",
-  "description": "download osu beatmap with osu mirror download api",
+  "description": "Download osu maps from various mirror APIs",
   "version": "1.0",
   "icons": {
     "16": "./images/icon-16.png",

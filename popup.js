@@ -8,8 +8,8 @@ const API_LIST = [
     osuMirrorEndpoint: 'https://kitsu.moe/api'
   },
   {
-    osuMirrorName: 'unknown',
-    osuMirrorEndpoint: 'https://unknown.moe/api'
+    osuMirrorName: 'Chimu',
+    osuMirrorEndpoint: 'https://api.chimu.moe/v1'
   }
 ]
 

@@ -2,8 +2,9 @@
 
 This is a chrome extension for osu mirror download using various mirror APIs.
 
-__List of APIs used:__
+__List of APIs supported:__
 - [Kitsu](https://kitsu.moe)
+- [Chimu](https://chimu.moe)
 
 ## Installation
 ### Source code
@@ -12,6 +13,8 @@ __List of APIs used:__
 3. Switch on `Developer mode`
 4. Click `Load unpacked` and choose the extension folder
 5. Done
+
+_Pin the extension on your browser for the convenience, because some maps are disabled on specific API_
 
 ### Chromium-based Browser Tested
 Only tested on [Opera](https://www.opera.com) and [Chrome](https://www.google.com/chrome) so far.

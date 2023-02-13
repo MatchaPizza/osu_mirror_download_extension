@@ -4,7 +4,7 @@
 
 var loading = false;
 
-console.log('Osu mirror beatmap download extension');
+console.log('Osu mirror download extension');
 console.log('--- joak_extension.js loaded ---');
 
 // get current url pattern
@@ -29,7 +29,7 @@ const downloadMapSet = async () => {
       if (response.success && response.downloadLink) {
         window.open(response.downloadLink);
       } else {
-        alert(response.message ?? 'unknown error');
+        alert(response.message ? response.message + '\nmaybe switch to other API to download this map 🙂' : 'unknown error');
       }
       if (button) button.className = 'joak-download-button';
       loading = false;
