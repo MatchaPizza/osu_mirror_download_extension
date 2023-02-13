@@ -2,6 +2,7 @@
  * background script
  */
 
+const DEFAULT_MIRROR_KEY = 'kitsu';
 const DEFAULT_MIRROR_NAME = 'Kitsu';
 const DEFAULT_MIRROR_ENDPOINT = 'https://kitsu.moe/api';
 
@@ -22,14 +23,12 @@ const fetchWithTimeout = async (api, options = {}) => {
 // set default api
 const setDefaultApi = async (sendResponse) => {
   try {
-    const result = await chrome.storage.sync.get(['osuMirrorEndpoint', 'osuMirrorName']);
-    if (result.osuMirrorEndpoint && result.osuMirrorName) {
-      endpoint = result.osuMirrorEndpoint;
-      endpointName = result.osuMirrorName;
-    } else {
+    const result = await chrome.storage.sync.get(['osuMirrorEndpoint', 'osuMirrorName', 'osuMirrorKey']);
+    if (!result.osuMirrorEndpoint || !result.osuMirrorName || !result.osuMirrorKey) {
       console.log('default mirror api not found, now setting Kitsu as default ...');
       await chrome.storage.sync.set(
         {
+          osuMirrorKey: DEFAULT_MIRROR_KEY,
           osuMirrorName: DEFAULT_MIRROR_NAME,
           osuMirrorEndpoint: DEFAULT_MIRROR_ENDPOINT
         }
@@ -44,7 +43,7 @@ const setDefaultApi = async (sendResponse) => {
 
 // get default api endpoint
 const getEndpoint = async () => {
-  const result = await chrome.storage.sync.get(['osuMirrorEndpoint', 'osuMirrorName']);
+  const result = await chrome.storage.sync.get(['osuMirrorEndpoint', 'osuMirrorKey']);
   return result;
 }
 
@@ -74,7 +73,7 @@ const getKitsuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) =
 // get Chimu download link
 const getChimuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
   const res = await fetchWithTimeout(`${osuMirrorEndpoint}/set/${mapSetId}`);
-  switch(res.status) {
+  switch (res.status) {
     case 200: {
       const resBody = await res.json();
       if (resBody.Disabled === false) {
@@ -90,20 +89,39 @@ const getChimuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) =
   }
 }
 
+// get Nerinyan download link
+const getNerinyanDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
+  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/bg/${mapSetId}`);
+  switch (res.status) {
+    case 200: {
+      sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/d/${mapSetId}` });
+      break;
+    }
+    default: {
+      sendResponse({ success: false, message: 'map not found ¯\\_(ツ)_/¯' });
+    }
+  }
+}
+
 // get mirror download link
 const getMirrorDownloadLink = async (sendResponse, mapSetId) => {
   try {
     // get default api endpoint
-    const { osuMirrorEndpoint, osuMirrorName } = await getEndpoint();
-    switch (osuMirrorName) {
-      case 'Kitsu': {
+    const { osuMirrorEndpoint, osuMirrorKey } = await getEndpoint();
+    switch (osuMirrorKey) {
+      case 'kitsu': {
         console.log('downloading map set from kitsu ...');
         await getKitsuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
-      case 'Chimu': {
+      case 'chimu': {
         console.log('downloading map set from chimu ...');
         await getChimuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
+        break;
+      }
+      case 'nerinyan': {
+        console.log('downloading map set from nerinyan ...');
+        await getNerinyanDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
       default: {

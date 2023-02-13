@@ -4,12 +4,19 @@
 
 const API_LIST = [
   {
+    osuMirrorKey: 'kitsu',
     osuMirrorName: 'Kitsu',
     osuMirrorEndpoint: 'https://kitsu.moe/api'
   },
   {
+    osuMirrorKey: 'chimu',
     osuMirrorName: 'Chimu',
     osuMirrorEndpoint: 'https://api.chimu.moe/v1'
+  },
+  {
+    osuMirrorKey: 'nerinyan',
+    osuMirrorName: 'Nerinyan [unstable]',
+    osuMirrorEndpoint: 'https://api.nerinyan.moe'
   }
 ]
 
