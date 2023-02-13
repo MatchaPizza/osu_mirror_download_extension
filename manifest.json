@@ -15,7 +15,7 @@
       "css": ["joak_extension.css"]
     }
   ],
-  "permissions": ["storage", "tabs"],
+  "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html"
   },
