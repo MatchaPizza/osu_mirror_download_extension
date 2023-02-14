@@ -60,12 +60,16 @@ const getKitsuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) =
       }
       break;
     }
+    case 404: {
+      sendResponse({ success: false, message: 'map not found ¯\\_(ツ)_/¯' });
+      break;
+    }
     case 429: {
       sendResponse({ success: false, message: 'too many downloads' });
       break;
     }
     default: {
-      sendResponse({ success: false, message: 'map not found ¯\\_(ツ)_/¯' });
+      sendResponse({ success: false, message: 'error getting mirror download link' });
     }
   }
 }
@@ -83,8 +87,12 @@ const getChimuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) =
       }
       break;
     }
-    default: {
+    case 404: {
       sendResponse({ success: false, message: 'map not found ¯\\_(ツ)_/¯' });
+      break;
+    }
+    default: {
+      sendResponse({ success: false, message: 'error getting mirror download link' });
     }
   }
 }
@@ -97,8 +105,12 @@ const getNerinyanDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId
       sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/d/${mapSetId}` });
       break;
     }
-    default: {
+    case 404: {
       sendResponse({ success: false, message: 'map not found ¯\\_(ツ)_/¯' });
+      break;
+    }
+    default: {
+      sendResponse({ success: false, message: 'error getting mirror download link' });
     }
   }
 }
@@ -108,19 +120,17 @@ const getMirrorDownloadLink = async (sendResponse, mapSetId) => {
   try {
     // get default api endpoint
     const { osuMirrorEndpoint, osuMirrorKey } = await getEndpoint();
+    console.log('downloading map set from', osuMirrorKey, '...');
     switch (osuMirrorKey) {
       case 'kitsu': {
-        console.log('downloading map set from kitsu ...');
         await getKitsuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
       case 'chimu': {
-        console.log('downloading map set from chimu ...');
         await getChimuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
       case 'nerinyan': {
-        console.log('downloading map set from nerinyan ...');
         await getNerinyanDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
@@ -131,6 +141,27 @@ const getMirrorDownloadLink = async (sendResponse, mapSetId) => {
   } catch (err) {
     console.error('error getting mirror download link', err);
     sendResponse({ success: false, message: 'error getting mirror download link' });
+  }
+}
+
+// get current api from storage
+const getCurrentApi = async (sendResponse) => {
+  const result = await chrome.storage.sync.get('osuMirrorName')
+  if (result.osuMirrorName) {
+    sendResponse({ success: true, currentApi: result.osuMirrorName });
+  } else {
+    sendResponse({ success: false, message: 'failed to get current api' });
+  }
+}
+
+// set current api to storage
+const setCurrentApi = async (sendResponse, osuMirrorName) => {
+  try {
+    await chrome.storage.sync.set(osuMirrorName);
+    sendResponse({ success: true });
+  } catch (err) {
+    console.error('failed to set current api', err);
+    sendResponse({ success: false, message: 'failed to set current api' });
   }
 }
 
@@ -146,6 +177,18 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
         getMirrorDownloadLink(sendResponse, request.mapSetId);
       } else {
         sendResponse({ success: false, message: 'missing mapSetId' });
+      }
+      return true;
+    }
+    case 'get-current-api': {
+      getCurrentApi(sendResponse);
+      return true;
+    }
+    case 'set-current-api': {
+      if (request.osuMirrorName) {
+        setCurrentApi(sendResponse, request.osuMirrorName);
+      } else {
+        sendResponse({ success: false, message: 'missing osuMirrorName' });
       }
       return true;
     }

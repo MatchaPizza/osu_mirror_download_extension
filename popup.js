@@ -32,9 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // get current api from storage
-  chrome.storage.sync.get('osuMirrorName').then((result) => {
-    if (result.osuMirrorName) {
-      apiSelect.value = result.osuMirrorName;
+  chrome.runtime.sendMessage({ action: 'get-current-api' }, (response) => {
+    if (response.success && response.currentApi) {
+      apiSelect.value = response.currentApi;
+    } else {
+      alert('failed to get current api');
     }
   });
 
@@ -43,14 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
   button.addEventListener('click', () => {
     const index = API_LIST.findIndex((element) => element.osuMirrorName === apiSelect.value);
     if (index !== -1) {
-      chrome.storage.sync
-        .set(API_LIST[index])
-        .then(() => {
+      chrome.runtime.sendMessage({ action: 'set-current-api', osuMirrorName: API_LIST[index] }, (response) => {
+        if (response.success) {
           window.close();
-        })
-        .catch((err) => {
-          console.error('unknown error', err);
-        })
+        } else {
+          console.warn('unknown error', response.message);
+        }
+      });
     }
   })
 });

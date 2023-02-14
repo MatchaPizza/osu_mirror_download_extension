@@ -16,7 +16,7 @@ const mapId = url.split('/').pop();
 
 // get and set default api from storage
 chrome.runtime.sendMessage({ action: 'set-default-api' }, (response) => {
-  if (!response.success) console.error('failed to set default api');
+  if (!response.success) console.warn('failed to set default api');
 });
 
 // open snackbar
