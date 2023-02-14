@@ -4,9 +4,9 @@
   "description": "Download osu maps from various mirror APIs",
   "version": "1.0",
   "icons": {
-    "16": "./images/icon-16.png",
-    "48": "./images/icon-48.png",
-    "128": "./images/icon-128.png"
+    "16": "./images/osu-16.png",
+    "48": "./images/osu-48.png",
+    "128": "./images/osu-128.png"
   },
   "content_scripts": [
     {
