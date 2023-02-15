@@ -8,6 +8,9 @@ __List of APIs supported:__
 - [Nerinyan](https://nerinyan.moe) [__unstable__ as there is no endpoint to check if the mapset is disabled]
 
 ## Installation
+### Chrome web store
+get it [here](https://chrome.google.com/webstore/detail/joaks-osu-mirror-download/fombdbdmedmppeffmnbhcpdgfdopffbb), thanks :)
+
 ### Source code
 1. Download the source code
 2. Open up a [chromium-based](#chromium-based-browser-tested) browser go to the extension tab
