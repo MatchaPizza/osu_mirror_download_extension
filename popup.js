@@ -5,8 +5,8 @@
 const API_LIST = [
   {
     osuMirrorKey: 'kitsu',
-    osuMirrorName: 'Kitsu',
-    osuMirrorEndpoint: 'https://kitsu.moe/api'
+    osuMirrorName: 'Kitsu (Osu direct)',
+    osuMirrorEndpoint: 'https://osu.direct/api'
   },
   {
     osuMirrorKey: 'chimu',
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const option = document.createElement('option');
     option.value = api.osuMirrorName;
     option.innerHTML = api.osuMirrorName;
-    apiSelect.appendChild(option)
+    apiSelect.appendChild(option);
   }
 
   // get current api from storage
