@@ -15,7 +15,7 @@ const API_LIST = [
   },
   {
     osuMirrorKey: 'nerinyan',
-    osuMirrorName: 'Nerinyan [unstable]',
+    osuMirrorName: 'Nerinyan',
     osuMirrorEndpoint: 'https://api.nerinyan.moe'
   }
 ]

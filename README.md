@@ -6,6 +6,7 @@ __List of APIs supported:__
 - [Kitsu (Osu direct)](https://osu.direct)
 - [Chimu](https://chimu.moe)
 - [Nerinyan](https://nerinyan.moe) [__unstable__ as there is no endpoint to check if the mapset is disabled]
+- [Beatconnect](https://beatconnect.io)
 
 ## Installation
 ### Chrome web store
@@ -21,7 +22,7 @@ get it [here](https://chrome.google.com/webstore/detail/joaks-osu-mirror-downloa
 _Pin the extension on your browser for the convenience, because some maps are disabled on specific API_
 
 ## Disclaimer
-I am not affiliated with any of the APIs' owners & maintainers. 
+I am not affiliated with any of the APIs' owners & maintainers.
 
 ## Chromium-based Browser Tested
 Only tested on [Opera](https://www.opera.com) and [Chrome](https://www.google.com/chrome) so far.

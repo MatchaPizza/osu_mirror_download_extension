@@ -91,6 +91,18 @@ const downloadMapSet = async () => {
   }
 }
 
+// download via beatconnect
+const openBeatconnect = async () => {
+  const url = document.URL;
+
+  if (!url.match("https://osu.ppy.sh/beatmapsets/.*")) {
+    openSnackbar('try not press this outside beatmap page', 'normal', 1000);
+  } else {
+    const mapSetId = url.split("#")[0].split('/').pop();
+    window.open(`https://beatconnect.io/b/${mapSetId}`);
+  }
+}
+
 // main
 (() => {
   // construct element if api is running
@@ -102,6 +114,13 @@ const downloadMapSet = async () => {
   downloadButton.innerHTML = 'Mirror Download';
   downloadButton.addEventListener('click', downloadMapSet);
   rootElement.appendChild(downloadButton);
+
+  // beatconnect button
+  const beatconnectDownloadButton = document.createElement('div');
+  beatconnectDownloadButton.className = "beatconnect-link-button";
+  beatconnectDownloadButton.innerHTML = 'Beatconnect Link';
+  beatconnectDownloadButton.addEventListener('click', openBeatconnect);
+  rootElement.appendChild(beatconnectDownloadButton);
 
   // snackbar
   const snackbar = document.createElement('div');
