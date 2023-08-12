@@ -57,7 +57,6 @@ const getEndpoint = async () => {
 // get Kitsu download link
 const getKitsuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
   const res = await fetchWithTimeout(`${osuMirrorEndpoint}/v2/s/${mapSetId}`);
-  console.log('res', res)
   switch (res.status) {
     case 200: {
       const resBody = await res.json();
