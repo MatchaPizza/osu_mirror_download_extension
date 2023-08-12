@@ -40,6 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // get current extension version
+  chrome.runtime.sendMessage({ action: 'get-current-version' }, (response) => {
+    if (response.success && response.version) {
+      const currentVersion = document.getElementById('current-version');
+      currentVersion.innerHTML = response.version;
+    } else {
+      alert('failed to get current extension');
+    }
+  });
+
   // add event listener to button
   const button = document.getElementById('change-api-button')
   button.addEventListener('click', () => {

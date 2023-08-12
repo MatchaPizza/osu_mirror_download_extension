@@ -7,4 +7,18 @@ body {
     color: white;
     background-color: rgb(43, 43, 43);
   }
+  
+  a {
+    color: rgb(237, 182, 237);
+  }
+}
+
+#current-version-container label, #issue-report-container label {
+  float: left;
+  clear: both;
+  margin-right: 15px;
+}
+
+[id$="-container"] {
+  margin: 15px 0 0;
 }

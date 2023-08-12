@@ -193,6 +193,10 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
       }
       return true;
     }
+    case 'get-current-version': {
+      sendResponse({ success: true, version: EXTENSION_VERSION });
+      return true;
+    }
     default: {
       console.error('unknown action');
       sendResponse({ success: false, message: 'unknown action' });
