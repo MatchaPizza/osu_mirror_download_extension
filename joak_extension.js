@@ -6,13 +6,8 @@ var loading = false;
 var snackbarActive = false;
 var snackbarTimeoutId;
 
-console.log('Osu mirror download extension');
-console.log('--- joak_extension.js loaded ---');
-
-// get current url pattern
-const url = document.URL;
-const mapSetId = url.split("#")[0].split('/').pop();
-const mapId = url.split('/').pop();
+console.debug('Osu mirror download extension');
+console.debug('--- joak_extension.js loaded ---');
 
 // get and set default api from storage
 chrome.runtime.sendMessage({ action: 'set-default-api' }, (response) => {
@@ -51,8 +46,11 @@ const closeSnackbar = () => {
 
 // download map set
 const downloadMapSet = async () => {
-  if (!loading) {
+  const url = document.URL;
+
+  if (!loading && url.match("https://osu.ppy.sh/beatmapsets/.*")) {
     loading = true;
+    const mapSetId = url.split("#")[0].split('/').pop();
 
     // update button icon
     const button = document.getElementsByClassName('joak-download-button')[0];
