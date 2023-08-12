@@ -1,4 +1,4 @@
-.joak-download-button {
+.joak-download-button, .beatconnect-link-button {
   position: fixed;
   right: 0px;
   top: 150px;
@@ -29,6 +29,23 @@
 
 .joak-download-button.clicked {
   background-color: rgb(243, 220, 243);
+  color: rgb(114, 112, 114);
+  cursor: no-drop !important;
+}
+
+.beatconnect-link-button {
+  top: 350px;
+  background-color: #d872a5;
+}
+
+.beatconnect-link-button:hover {
+  background-color: rgb(206, 168, 206);
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+}
+
+.beatconnect-link-button.clicked {
+  background-color: rgb(236, 205, 236);
   color: rgb(114, 112, 114);
   cursor: no-drop !important;
 }

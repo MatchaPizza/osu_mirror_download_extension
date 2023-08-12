@@ -5,7 +5,7 @@
 const DEFAULT_MIRROR_KEY = 'kitsu';
 const DEFAULT_MIRROR_NAME = 'Kitsu (Osu direct)';
 const DEFAULT_MIRROR_ENDPOINT = 'https://osu.direct/api';
-const EXTENSION_VERSION = 'v2.1';
+const EXTENSION_VERSION = 'v3.0';
 
 // fetch with 3s timeout
 const fetchWithTimeout = async (api, options = {}) => {
