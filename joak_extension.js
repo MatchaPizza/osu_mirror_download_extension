@@ -14,18 +14,41 @@ chrome.runtime.sendMessage({ action: 'set-default-api' }, (response) => {
   if (!response.success) console.warn('failed to set default api');
 });
 
+// click the download button
+const clickDownloadButton = (click = true) => {
+  const button = document.getElementsByClassName('joak-download-button')[0];
+  if (!button) return;
+  if (click) {
+    button.className = 'joak-download-button clicked';
+  } else {
+    button.className = 'joak-download-button';
+  }
+}
+
 // open snackbar
-const openSnackbar = (message = '') => {
+const openSnackbar = (message = '', level = 'normal', delay = 3000) => {
   if (snackbarActive) return;
   snackbarActive = true;
 
   const snackbarText = document.getElementById('snackbar-message');
   if (snackbarText) snackbarText.innerHTML = message;
 
+  const secondarySnackbarText = document.getElementById('snackbar-secondary-message');
+  switch (level) {
+    case 'normal': {
+      secondarySnackbarText.innerHTML = '🙂';
+      break;
+    }
+    case 'error': {
+      secondarySnackbarText.innerHTML = 'maybe switch to other API to download this map 🙂';
+      break;
+    }
+  }
+
   const snackbar = document.getElementsByClassName('joak-download-snackbar')[0];
   if (snackbar) snackbar.style.display = 'block';
 
-  snackbarTimeoutId = setTimeout(() => closeSnackbar(), 3000);
+  snackbarTimeoutId = setTimeout(closeSnackbar, delay);
 }
 
 // close snackbar
@@ -39,8 +62,7 @@ const closeSnackbar = () => {
     snackbar.style.display = 'none';
   }
 
-  const button = document.getElementsByClassName('joak-download-button')[0];
-  if (button) button.className = 'joak-download-button';
+  clickDownloadButton(false);
   loading = false;
 }
 
@@ -48,22 +70,22 @@ const closeSnackbar = () => {
 const downloadMapSet = async () => {
   const url = document.URL;
 
-  if (!loading && url.match("https://osu.ppy.sh/beatmapsets/.*")) {
+  if (!url.match("https://osu.ppy.sh/beatmapsets/.*")) {
+    loading = true;
+    clickDownloadButton(true);
+    openSnackbar('try not press this outside beatmap page', 'normal', 1000);
+  } else if (!loading) {
     loading = true;
     const mapSetId = url.split("#")[0].split('/').pop();
 
-    // update button icon
-    const button = document.getElementsByClassName('joak-download-button')[0];
-    if (button) button.className = 'joak-download-button clicked';
-
+    clickDownloadButton(true);
     chrome.runtime.sendMessage({ action: 'download-map-set', mapSetId }, (response) => {
       if (response.success && response.downloadLink) {
         window.open(response.downloadLink);
-        if (button) button.className = 'joak-download-button';
+        clickDownloadButton(false);
         loading = false;
       } else {
-        // alert(response.message ? response.message + '\nmaybe switch to other API to download this map 🙂' : 'unknown error');
-        openSnackbar(response.message ?? 'unknown error');
+        openSnackbar(response.message ?? 'unknown error', 'error');
       }
     })
   }
@@ -89,7 +111,7 @@ const downloadMapSet = async () => {
   snackbarText.id = 'snackbar-message';
   snackbar.appendChild(snackbarText);
   const secondarySnackbarText = document.createElement('p');
-  secondarySnackbarText.innerHTML = 'maybe switch to other API to download this map 🙂';
+  secondarySnackbarText.id = 'snackbar-secondary-message';
   snackbar.appendChild(secondarySnackbarText);
   rootElement.appendChild(snackbar);
 })();
