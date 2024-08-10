@@ -2,10 +2,10 @@
  * background script
  */
 
-const DEFAULT_MIRROR_KEY = 'kitsu';
-const DEFAULT_MIRROR_NAME = 'Kitsu (Osu direct)';
-const DEFAULT_MIRROR_ENDPOINT = 'https://osu.direct/api';
-const EXTENSION_VERSION = 'v3.0';
+const DEFAULT_MIRROR_KEY = 'mino';
+const DEFAULT_MIRROR_NAME = 'Mino';
+const DEFAULT_MIRROR_ENDPOINT = 'https://catboy.best';
+const EXTENSION_VERSION = 'v4.0.0';
 
 // fetch with 3s timeout
 const fetchWithTimeout = async (api, options = {}) => {
@@ -54,14 +54,14 @@ const getEndpoint = async () => {
   return result;
 }
 
-// get Kitsu download link
-const getKitsuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
-  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/v2/s/${mapSetId}`);
+// get Osu direct download link
+const getOsuDirectDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
+  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/api/v2/s/${mapSetId}`);
   switch (res.status) {
     case 200: {
       const resBody = await res.json();
       if (resBody.availability.download_disabled === false) {
-        sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/d/${mapSetId}` });
+        sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/api/d/${mapSetId}` });
       } else {
         sendResponse({ success: false, message: 'beatmap is unavailable from this api' });
       }
@@ -77,14 +77,14 @@ const getKitsuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) =
   }
 }
 
-// get Chimu download link
-const getChimuDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
-  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/set/${mapSetId}`);
+// get Mino download link
+const getMinoDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
+  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/api/v2/s/${mapSetId}`);
   switch (res.status) {
     case 200: {
       const resBody = await res.json();
-      if (resBody.Disabled === false) {
-        sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/download/${mapSetId}` });
+      if (resBody.availability.download_disabled === false) {
+        sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/d/${mapSetId}` });
       } else {
         sendResponse({ success: false, message: 'beatmap is unavailable from this api' });
       }
@@ -121,12 +121,12 @@ const getMirrorDownloadLink = async (sendResponse, mapSetId) => {
     const { osuMirrorEndpoint, osuMirrorKey } = await getEndpoint();
     console.log('downloading map set from', osuMirrorKey, '...');
     switch (osuMirrorKey) {
-      case 'kitsu': {
-        await getKitsuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
+      case 'mino': {
+        await getMinoDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
-      case 'chimu': {
-        await getChimuDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
+      case 'osu_direct': {
+        await getOsuDirectDownloadLink(sendResponse, osuMirrorEndpoint, mapSetId);
         break;
       }
       case 'nerinyan': {

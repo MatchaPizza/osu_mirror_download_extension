@@ -4,14 +4,14 @@
 
 const API_LIST = [
   {
-    osuMirrorKey: 'kitsu',
-    osuMirrorName: 'Kitsu (Osu direct)',
-    osuMirrorEndpoint: 'https://osu.direct/api'
+    osuMirrorKey: 'mino',
+    osuMirrorName: 'Mino',
+    osuMirrorEndpoint: 'https://catboy.best'
   },
   {
-    osuMirrorKey: 'chimu',
-    osuMirrorName: 'Chimu',
-    osuMirrorEndpoint: 'https://api.chimu.moe/v1'
+    osuMirrorKey: 'osu_direct',
+    osuMirrorName: 'Osu direct',
+    osuMirrorEndpoint: 'https://osu.direct'
   },
   {
     osuMirrorKey: 'nerinyan',
@@ -65,5 +65,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 });
-
-

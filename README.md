@@ -4,7 +4,7 @@ This is a chrome extension for osu mirror download using various mirror APIs.
 
 __List of APIs supported:__
 - [Kitsu (Osu direct)](https://osu.direct)
-- [Chimu](https://chimu.moe)
+- [Mino](https://catboy.best)
 - [Nerinyan](https://nerinyan.moe) [__unstable__ as there is no endpoint to check if the mapset is disabled]
 - [Beatconnect](https://beatconnect.io)
 
