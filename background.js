@@ -102,16 +102,7 @@ const getMinoDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) =>
 
 // get Nerinyan download link
 const getNerinyanDownloadLink = async (sendResponse, osuMirrorEndpoint, mapSetId) => {
-  const res = await fetchWithTimeout(`${osuMirrorEndpoint}/d/${mapSetId}`, { mode: "cors" });
-  switch (res.status) {
-    case 200: {
-      sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/d/${mapSetId}` });
-      break;
-    }
-    default: {
-      sendResponse({ success: false, message: 'map not found ¯\\_(ツ)_/¯' });
-    }
-  }
+  sendResponse({ success: true, downloadLink: `${osuMirrorEndpoint}/d/${mapSetId}` });
 }
 
 // get mirror download link
